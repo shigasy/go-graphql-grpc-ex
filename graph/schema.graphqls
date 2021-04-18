@@ -1,0 +1,32 @@
+type Article {
+  id: Int!
+  author: String!
+  title: String!
+  content: String!
+}
+
+input CreateInput {
+  author: String!
+  title: String!
+  content: String!
+}
+
+input UpdateInput {
+  id: Int!
+  author: String!
+  title: String!
+  content: String!
+}
+
+# mutationの定義(CREATE, UPDATE, DELETEを行う)
+type Mutation {
+    createArticle(input: CreateInput!): Article!
+    updateArticle(input: UpdateInput!): Article!
+    deleteArticle(input: Int!): Int!
+}
+
+# article -> read, articles -> 全取得
+type Query {
+  article(input: Int!): Article!
+  articles: [Article!]!
+}
