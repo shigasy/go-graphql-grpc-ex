@@ -7,6 +7,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/shigasy/go-graphql-grpc-ex/article/client"
 	"github.com/shigasy/go-graphql-grpc-ex/graph"
 	"github.com/shigasy/go-graphql-grpc-ex/graph/generated"
 )
@@ -19,7 +20,14 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	articleClient, err := client.NewClient("localhost:50051")
+
+	if err != nil {
+		articleClient.Close()
+		log.Fatalf("Failed to create article client: %v\n", err)
+	}
+
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{ArticleClient: articleClient}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

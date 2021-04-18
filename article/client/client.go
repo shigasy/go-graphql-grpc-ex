@@ -29,6 +29,10 @@ func NewClient(url string) (*Client, error) {
 	return &Client{conn, c}, nil
 }
 
+func (c *Client) Close() {
+	c.conn.Close()
+}
+
 func (c *Client) CreateArticle(ctx context.Context, input *pb.ArticleInput) (*model.Article, error) {
 	res, err := c.Service.CreateArticle(
 		ctx,
