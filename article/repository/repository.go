@@ -1,7 +1,11 @@
 package repository
 
 import (
+	"context"
+	"database/sql"
+
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/shigasy/go-graphql-grpc-ex/article/pb"
 )
 
 type Repository interface {
